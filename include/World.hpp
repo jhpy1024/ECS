@@ -18,6 +18,10 @@ class World
     public:
         World();
 
+        void handleInput();
+        void update(float delta);
+        void draw();
+
         unsigned createEntity();
         void removeEntity(unsigned id);
         void removeAllEntities();

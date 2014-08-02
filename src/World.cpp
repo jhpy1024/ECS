@@ -5,6 +5,24 @@ World::World()
 {
 }
 
+void World::handleInput()
+{
+    for (auto& system : m_Systems)
+        system->handleInput(m_Entities);
+}
+
+void World::update(float delta)
+{
+    for (auto& system : m_Systems)
+        system->update(delta, m_Entities);
+}
+
+void World::draw()
+{
+    for (auto& system : m_Systems)
+        system->draw(m_Entities);
+}
+
 unsigned World::createEntity()
 {
     unsigned id = m_LatestEntityID;
