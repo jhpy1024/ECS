@@ -1,6 +1,5 @@
 #include "BaseSystem.hpp"
 
-
 void BaseSystem::handleInput(EntityMap& entities)
 {
 }
