@@ -81,6 +81,8 @@ class World
                 if (currentComponentID == targetComponentID)
                     return std::static_pointer_cast<T>(componentMap.second);
             }
+
+            return nullptr;
         }
 
         template <typename T>
