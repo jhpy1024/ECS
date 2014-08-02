@@ -25,22 +25,22 @@ struct OtherComponent : BaseComponent
     }
 };
 
-int main()
-{
-    World world;
+/* int main() */
+/* { */
+/*     World world; */
 
-    auto entity = world.createEntity();
-    world.addComponent<PositionComponent>(entity);
-    world.addComponent<OtherComponent>(entity);
-    auto posComp = world.getComponent<PositionComponent>(entity);
+/*     auto entity = world.createEntity(); */
+/*     world.addComponent<PositionComponent>(entity); */
+/*     world.addComponent<OtherComponent>(entity); */
+/*     auto posComp = world.getComponent<PositionComponent>(entity); */
 
-    assert(world.hasComponent<PositionComponent>(entity) == true);
-    assert(world.hasComponent<OtherComponent>(entity) == true);
+/*     assert(world.hasComponent<PositionComponent>(entity) == true); */
+/*     assert(world.hasComponent<OtherComponent>(entity) == true); */
 
-    world.removeComponent<PositionComponent>(entity);
+/*     world.removeComponent<PositionComponent>(entity); */
 
-    assert(world.hasComponent<PositionComponent>(entity) == false);
-    assert(world.hasComponent<OtherComponent>(entity) == true);
+/*     assert(world.hasComponent<PositionComponent>(entity) == false); */
+/*     assert(world.hasComponent<OtherComponent>(entity) == true); */
 
-    return 0;
-}
+/*     return 0; */
+/* } */
