@@ -21,9 +21,7 @@ unsigned World::createEntity()
 void World::removeEntity(unsigned id)
 {
     if (hasEntity(id))
-    {
         m_Entities.erase(id);
-    }
 }
 
 void World::removeAllEntities()
