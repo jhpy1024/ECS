@@ -3,9 +3,11 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 #include <iostream>
 #include <unordered_map>
 
+#include "BaseSystem.hpp"
 #include "BaseComponent.hpp"
 
 using EntityComponents = std::unordered_map<std::string, std::shared_ptr<BaseComponent>>;
@@ -20,6 +22,13 @@ class World
         void removeEntity(unsigned id);
         void removeAllEntities();
         bool hasEntity(unsigned id) const;
+
+        template <typename T>
+        void registerSystem()
+        {
+            auto system = std::make_shared<T>();
+            m_Systems.push_back(system);
+        }
 
         template <typename T>
         std::shared_ptr<BaseComponent> addComponent(unsigned id)
@@ -110,6 +119,8 @@ class World
     private:
         EntityMap m_Entities;
         unsigned m_LatestEntityID;
+
+        std::vector<std::shared_ptr<BaseSystem>> m_Systems;
 };
 
 #endif
