@@ -1,6 +1,7 @@
 #include "World.hpp"
 #include "BaseComponent.hpp"
 
+#include <cassert>
 #include <iostream>
 
 struct PositionComponent : BaseComponent
@@ -33,16 +34,13 @@ int main()
     world.addComponent<OtherComponent>(entity);
     auto posComp = world.getComponent<PositionComponent>(entity);
 
-    std::printf("Has PositionComponent: %d\n", world.hasComponent<PositionComponent>(entity));
-    std::printf("Has OtherComponent: %d\n", world.hasComponent<OtherComponent>(entity));
-    std::printf("Position (%f,%f)\n", posComp->x, posComp->y);
+    assert(world.hasComponent<PositionComponent>(entity) == true);
+    assert(world.hasComponent<OtherComponent>(entity) == true);
 
     world.removeComponent<PositionComponent>(entity);
 
-    std::printf("Has PositionComponent: %d\n", world.hasComponent<PositionComponent>(entity));
-    std::printf("Has OtherComponent: %d\n", world.hasComponent<OtherComponent>(entity));
-
-    world.getComponent<PositionComponent>(entity);
+    assert(world.hasComponent<PositionComponent>(entity) == false);
+    assert(world.hasComponent<OtherComponent>(entity) == true);
 
     return 0;
 }
