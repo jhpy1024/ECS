@@ -32,7 +32,7 @@ class World
             }
 
             auto component = std::make_shared<T>();
-            m_Entities[id][component.ID] = component;
+            m_Entities[id][component->ID] = component;
 
             return component;
         }
@@ -57,7 +57,7 @@ class World
         }
 
         template <typename T>
-        std::shared_ptr<BaseComponent> getComponent(unsigned id)
+        std::shared_ptr<T> getComponent(unsigned id)
         {
             auto targetComponentID = T().ID;
 
@@ -79,8 +79,30 @@ class World
             {
                 auto currentComponentID = componentMap.first;
                 if (currentComponentID == targetComponentID)
-                    return componentMap.second;
+                    return std::static_pointer_cast<T>(componentMap.second);
             }
+        }
+
+        template <typename T>
+        void removeComponent(unsigned id)
+        {
+            auto targetComponentID = T().ID;
+
+            if (!hasEntity(id))
+            {
+                std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because the entity does not exist."
+                          << std::endl;
+                return;
+            }
+
+            if (!hasComponent<T>(id))
+            {
+                std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because it does not exist."
+                          << std::endl;
+                return;
+            }
+
+            m_Entities[id].erase(targetComponentID);
         }
 
     private:
