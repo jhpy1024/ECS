@@ -1,13 +1,14 @@
+#include "World.hpp"
 #include "BaseSystem.hpp"
 
-void BaseSystem::handleInput(EntityMap& entities)
+void BaseSystem::handleInput(World& world)
 {
 }
 
-void BaseSystem::update(float delta, EntityMap& entities)
+void BaseSystem::update(float delta, World& world)
 {
 }
 
-void BaseSystem::draw(EntityMap& entities)
+void BaseSystem::draw(World& world)
 {
 }

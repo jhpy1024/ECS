@@ -8,19 +8,19 @@ World::World()
 void World::handleInput()
 {
     for (auto& system : m_Systems)
-        system->handleInput(m_Entities);
+        system->handleInput(*this);
 }
 
 void World::update(float delta)
 {
     for (auto& system : m_Systems)
-        system->update(delta, m_Entities);
+        system->update(delta, *this);
 }
 
 void World::draw()
 {
     for (auto& system : m_Systems)
-        system->draw(m_Entities);
+        system->draw(*this);
 }
 
 unsigned World::createEntity()

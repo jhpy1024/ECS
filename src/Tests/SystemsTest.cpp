@@ -14,42 +14,38 @@ struct PosComp : BaseComponent
 class TestSystem : public BaseSystem
 {
     public:
-        void handleInput(EntityMap& entities) override
+        void handleInput(World& world) override
         {
-            std::printf("handleInput() - %lu entities\n", entities.size());
         }
 
-        void update(float delta, EntityMap& entities) override
+        void update(float delta, World& world) override
         {
-            std::printf("update() - %lu entities\n", entities.size());
-
-            for (auto& pair : entities)
+            for (auto ent : world.getEntitiesWithComponent<PosComp>())
             {
-                auto pos = std::static_pointer_cast<PosComp>(pair.second["Pos"]);
+                auto pos = world.getComponent<PosComp>(ent);
                 pos->x += 10;
                 pos->y += 20;
             }
         }
 
-        void draw(EntityMap& entities) override
+        void draw(World& world) override
         {
-            std::printf("draw() - %lu entities\n", entities.size());
         }
 };
 
-/* int main() */
-/* { */
-/*     World world; */
-/*     world.registerSystem<TestSystem>(); */
+int main()
+{
+    World world;
+    world.registerSystem<TestSystem>();
 
-/*     auto entity = world.createEntity(); */
-/*     auto position = world.addComponent<PosComp>(entity); */
-/*     std::printf("Position before (%d,%d)\n", position->x, position->y); */
+    auto entity = world.createEntity();
+    auto position = world.addComponent<PosComp>(entity);
+    std::printf("Position before (%d,%d)\n", position->x, position->y);
 
-/*     world.handleInput(); */
-/*     world.update(1.f); */
-/*     world.draw(); */
+    world.handleInput();
+    world.update(1.f);
+    world.draw();
 
-/*     std::printf("Position after (%d,%d)\n", position->x, position->y); */
-/*     return 0; */
-/* } */
+    std::printf("Position after (%d,%d)\n", position->x, position->y);
+    return 0;
+}
