@@ -1,6 +1,8 @@
 #ifndef WORLD_INL
 #define WORLD_INL
 
+#include <stdexcept>
+
 template <typename T>
 void World::registerSystem()
 {
@@ -9,14 +11,10 @@ void World::registerSystem()
 }
 
 template <typename T>
-std::shared_ptr<BaseComponent> World::addComponent(unsigned id)
+std::shared_ptr<T> World::addComponent(unsigned id)
 {
     if (!hasEntity(id))
-    {
-        std::cerr << "[Error] Unable to add component to entity as it does not exist"
-            << " so returning nullptr." << std::endl;
-        return nullptr;
-    }
+        throw std::runtime_error("Unable to add component as the entity does not exist.");
 
     auto component = std::make_shared<T>();
     m_Entities[id][component->ID] = component;
@@ -28,10 +26,7 @@ template <typename T>
 bool World::hasComponent(unsigned id)
 {
     if (!hasEntity(id))
-    {
-        std::cerr << "[Error] Unable to check if entity has that component as the entity does not exist." << std::endl;
-        return false;
-    }
+        throw std::runtime_error("Unable to determine if the entity has that component as the entity does not exist.");
 
     auto targetComponentID = T().ID;
     return m_Entities[id].count(targetComponentID) > 0;
@@ -49,18 +44,10 @@ std::shared_ptr<T> World::getComponent(unsigned id)
     auto targetComponentID = T().ID;
 
     if (!hasEntity(id))
-    {
-        std::cerr << "[Error] Unable to get component with ID \"" << targetComponentID << "\" because the entity does not exist"
-            << " so returning nullptr." << std::endl;
-        return nullptr;
-    }
+        throw std::runtime_error("Unable to get component from entity as the entity does not exist.");
 
     if (!hasComponent<T>(id))
-    {
-        std::cerr << "[Error] Unable to get component with ID \"" << targetComponentID << "\" because it does not exist" 
-            << " so returning nullptr." << std::endl;
-        return nullptr;
-    }
+        throw std::runtime_error("Unable to get component from entity as the component does not exist.");
 
     for (auto& componentMap : m_Entities[id])
     {
@@ -78,18 +65,10 @@ void World::removeComponent(unsigned id)
     auto targetComponentID = T().ID;
 
     if (!hasEntity(id))
-    {
-        std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because the entity does not exist."
-            << std::endl;
-        return;
-    }
+        throw std::runtime_error("Unable to remove component from entity as the entity does not exist.");
 
     if (!hasComponent<T>(id))
-    {
-        std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because it does not exist."
-            << std::endl;
-        return;
-    }
+        throw std::runtime_error("Unable to remove component from entity as the component does not exist.");
 
     m_Entities[id].erase(targetComponentID);
 }

@@ -31,7 +31,7 @@ class World
         void registerSystem();
 
         template <typename T>
-        std::shared_ptr<BaseComponent> addComponent(unsigned id);
+        std::shared_ptr<T> addComponent(unsigned id);
 
         template <typename T>
         bool hasComponent(unsigned id);
