@@ -28,97 +28,23 @@ class World
         bool hasEntity(unsigned id) const;
 
         template <typename T>
-        void registerSystem()
-        {
-            auto system = std::make_shared<T>();
-            m_Systems.push_back(system);
-        }
+        void registerSystem();
 
         template <typename T>
-        std::shared_ptr<BaseComponent> addComponent(unsigned id)
-        {
-            if (!hasEntity(id))
-            {
-                std::cerr << "[Error] Unable to add component to entity as it does not exist"
-                          << " so returning nullptr." << std::endl;
-                return nullptr;
-            }
-
-            auto component = std::make_shared<T>();
-            m_Entities[id][component->ID] = component;
-
-            return component;
-        }
+        std::shared_ptr<BaseComponent> addComponent(unsigned id);
 
         template <typename T>
-        bool hasComponent(unsigned id)
-        {
-            if (!hasEntity(id))
-            {
-                std::cerr << "[Error] Unable to check if entity has that component as the entity does not exist." << std::endl;
-                return false;
-            }
-
-            auto targetComponentID = T().ID;
-            return m_Entities[id].count(targetComponentID) > 0;
-        }
+        bool hasComponent(unsigned id);
 
         template <typename First, typename Second, typename... Others>
-        bool hasComponents(unsigned id)
-        {
-            return (hasComponent<First>(id) && hasComponents<Second, Others...>(id));
-        }
+        bool hasComponents(unsigned id);
 
         template <typename T>
-        std::shared_ptr<T> getComponent(unsigned id)
-        {
-            auto targetComponentID = T().ID;
-
-            if (!hasEntity(id))
-            {
-                std::cerr << "[Error] Unable to get component with ID \"" << targetComponentID << "\" because the entity does not exist"
-                          << " so returning nullptr." << std::endl;
-                return nullptr;
-            }
-
-            if (!hasComponent<T>(id))
-            {
-                std::cerr << "[Error] Unable to get component with ID \"" << targetComponentID << "\" because it does not exist" 
-                          << " so returning nullptr." << std::endl;
-                return nullptr;
-            }
-
-            for (auto& componentMap : m_Entities[id])
-            {
-                auto currentComponentID = componentMap.first;
-                if (currentComponentID == targetComponentID)
-                    return std::static_pointer_cast<T>(componentMap.second);
-            }
-
-            return nullptr;
-        }
+        std::shared_ptr<T> getComponent(unsigned id);
 
         template <typename T>
-        void removeComponent(unsigned id)
-        {
-            auto targetComponentID = T().ID;
+        void removeComponent(unsigned id);
 
-            if (!hasEntity(id))
-            {
-                std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because the entity does not exist."
-                          << std::endl;
-                return;
-            }
-
-            if (!hasComponent<T>(id))
-            {
-                std::cerr << "[Error] Unable to remove component with ID \"" << targetComponentID << "\" because it does not exist."
-                          << std::endl;
-                return;
-            }
-
-            m_Entities[id].erase(targetComponentID);
-        }
 
     private:
         EntityMap m_Entities;
@@ -126,5 +52,7 @@ class World
 
         std::vector<std::shared_ptr<BaseSystem>> m_Systems;
 };
+
+#include "World.inl"
 
 #endif
