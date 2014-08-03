@@ -36,6 +36,9 @@ class World
         template <typename T>
         bool hasComponent(unsigned id);
 
+        template <typename T>
+        bool hasComponents(unsigned id);
+
         template <typename First, typename Second, typename... Others>
         bool hasComponents(unsigned id);
 
@@ -45,6 +48,11 @@ class World
         template <typename T>
         void removeComponent(unsigned id);
 
+        template <typename T>
+        std::vector<unsigned> getEntitiesWithComponent();
+
+        template <typename First, typename... Others>
+        std::vector<unsigned> getEntitiesWithComponents();
 
     private:
         EntityMap m_Entities;

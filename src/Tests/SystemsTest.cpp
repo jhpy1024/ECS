@@ -37,19 +37,19 @@ class TestSystem : public BaseSystem
         }
 };
 
-int main()
-{
-    World world;
-    world.registerSystem<TestSystem>();
+/* int main() */
+/* { */
+/*     World world; */
+/*     world.registerSystem<TestSystem>(); */
 
-    auto entity = world.createEntity();
-    auto position = world.addComponent<PosComp>(entity);
-    std::printf("Position before (%d,%d)\n", position->x, position->y);
+/*     auto entity = world.createEntity(); */
+/*     auto position = world.addComponent<PosComp>(entity); */
+/*     std::printf("Position before (%d,%d)\n", position->x, position->y); */
 
-    world.handleInput();
-    world.update(1.f);
-    world.draw();
+/*     world.handleInput(); */
+/*     world.update(1.f); */
+/*     world.draw(); */
 
-    std::printf("Position after (%d,%d)\n", position->x, position->y);
-    return 0;
-}
+/*     std::printf("Position after (%d,%d)\n", position->x, position->y); */
+/*     return 0; */
+/* } */

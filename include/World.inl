@@ -1,6 +1,8 @@
 #ifndef WORLD_INL
 #define WORLD_INL
 
+#include <vector>
+#include <memory>
 #include <stdexcept>
 
 template <typename T>
@@ -30,6 +32,12 @@ bool World::hasComponent(unsigned id)
 
     auto targetComponentID = T().ID;
     return m_Entities[id].count(targetComponentID) > 0;
+}
+
+template <typename T>
+bool World::hasComponents(unsigned id)
+{
+    return hasComponent<T>(id);
 }
 
 template <typename First, typename Second, typename... Others>
@@ -71,6 +79,30 @@ void World::removeComponent(unsigned id)
         throw std::runtime_error("Unable to remove component from entity as the component does not exist.");
 
     m_Entities[id].erase(targetComponentID);
+}
+
+template <typename T>
+std::vector<unsigned> World::getEntitiesWithComponent()
+{
+    std::vector<unsigned> entities;
+
+    for (auto& pair : m_Entities)
+        if (hasComponent<T>(pair.first))
+            entities.push_back(pair.first);
+
+    return entities;
+}
+
+template <typename First, typename... Others>
+std::vector<unsigned> World::getEntitiesWithComponents()
+{
+    std::vector<unsigned> entities;
+
+    for (auto& pair : m_Entities)
+        if (hasComponents<First, Others...>(pair.first))
+            entities.push_back(pair.first);
+
+    return entities;
 }
 
 #endif
